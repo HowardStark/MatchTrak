@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+   <head>
+      <title>CS:GO Team Manager</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+      <script type="text/javascript">
+
+        var players = new Array();
+
+         function WebSocketTest() {
+            if ("WebSocket" in window) {
+               alert("WebSocket is supported by your Browser!");
+               // Let us open a web socket
+               var ws = new WebSocket("ws://10.1.128.48:3000");
+               ws.onopen = function() {
+                  alert("Message is sent...");
+               };
+               ws.onmessage = function (evt) {
+                  var received_msg = evt.data;
+                  var json = JSON.parse(received_msg)
+                  if(!(players.indexOf(json.player.steamid) > -1)) {
+                      players.push(json.player.steamid)
+                      $('#table').append('<tr id="' + json.player.steamid + '"><td id="name">' + json.player.name + '</td><td id="health">' + json.player.state.health + '</td><td id="armor">' + json.player.state.armor + '</td><td id="flashed">' + json.player.state.flashed + '</td><td id="smoked">' + json.player.state.smoked + '</td><td id="match_kills">' + json.player.match_stats.kills + '</td><td id="match_assists">' + json.player.match_stats.assists + '</td><td>' + json.player.match_stats.deaths + '</td></tr>');
+                  }
+                  $('#' + json.player.steamid).html('<td id="name">' + json.player.name + '</td><td id="health">' + json.player.state.health + '</td><td id="armor">' + json.player.state.armor + '</td><td id="flashed">' + json.player.state.flashed + '</td><td id="smoked">' + json.player.state.smoked + '</td><td id="match_kills">' + json.player.match_stats.kills + '</td><td id="match_assists">' + json.player.match_stats.assists + '</td><td>' + json.player.match_stats.deaths + '</td>')
+                  console.log(received_msg)
+
+               };
+               ws.onclose = function() {
+                  // websocket is closed.
+                  alert("Connection is closed...");
+               };
+            } else {
+               // The browser doesn't support WebSocket
+               alert("WebSocket NOT supported by your Browser!");
+            }
+         }
+      </script>
+   </head>
+   <body>
+      <div id="sse">
+         <a href="javascript:WebSocketTest()">Run WebSocket</a>
+      </div>
+      <div id="players">
+        <table id="table">
+            <tr id="values">
+                <td>Name</td>
+                <td>Health</td>
+                <td>Armor</td>
+                <td>Flashed</td>
+                <td>Smoked</td>
+                <td>Match Kills</td>
+                <td>Match Assists</td>
+                <td>Match Deaths</td>
+                <td>Round Kills</td>
+            </tr>
+        </table>
+        <p>Health: </p><p id="health">%</p>
+      </div>
+   </body>
+</html>
