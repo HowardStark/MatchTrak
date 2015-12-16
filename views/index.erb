@@ -1,61 +1,73 @@
 <!DOCTYPE HTML>
 <html>
    <head>
-      <title>CS:GO Team Manager</title>
+      <title>MatchTrak</title>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-      <script type="text/javascript">
-
-        var players = new Array();
-
-         function WebSocketTest() {
-            if ("WebSocket" in window) {
-               alert("WebSocket is supported by your Browser!");
-               // Let us open a web socket
-               var ws = new WebSocket("ws://10.1.128.48:3000");
-               ws.onopen = function() {
-                  alert("Message is sent...");
-               };
-               ws.onmessage = function (evt) {
-                  var received_msg = evt.data;
-                  var json = JSON.parse(received_msg)
-                  if(!(players.indexOf(json.player.steamid) > -1)) {
-                      players.push(json.player.steamid)
-                      $('#table').append('<tr id="' + json.player.steamid + '"><td id="name">' + json.player.name + '</td><td id="health">' + json.player.state.health + '</td><td id="armor">' + json.player.state.armor + '</td><td id="flashed">' + json.player.state.flashed + '</td><td id="smoked">' + json.player.state.smoked + '</td><td id="match_kills">' + json.player.match_stats.kills + '</td><td id="match_assists">' + json.player.match_stats.assists + '</td><td>' + json.player.match_stats.deaths + '</td></tr>');
-                  }
-                  $('#' + json.player.steamid).html('<td id="name">' + json.player.name + '</td><td id="health">' + json.player.state.health + '</td><td id="armor">' + json.player.state.armor + '</td><td id="flashed">' + json.player.state.flashed + '</td><td id="smoked">' + json.player.state.smoked + '</td><td id="match_kills">' + json.player.match_stats.kills + '</td><td id="match_assists">' + json.player.match_stats.assists + '</td><td>' + json.player.match_stats.deaths + '</td>')
-                  console.log(received_msg)
-
-               };
-               ws.onclose = function() {
-                  // websocket is closed.
-                  alert("Connection is closed...");
-               };
-            } else {
-               // The browser doesn't support WebSocket
-               alert("WebSocket NOT supported by your Browser!");
-            }
-         }
-      </script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+      <script src="/js"></script>
+      <style>
+      .score-header {
+        font-size: 15px;
+        display: inline;
+        padding:20px;
+      }
+      #score {
+        font-size: 50px;
+      }
+      .timer {
+        font-size: 100px;
+        background: rgba(255, 255, 255, 0.7);
+      }
+      .timer-bg {
+        background-image: url('/img/bomb.png');
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      #defuse {
+        background: rgba(255, 255, 255, 0.7);
+      }
+      #bomb {
+        display: none;
+      }
+  </style>
    </head>
    <body>
-      <div id="sse">
-         <a href="javascript:WebSocketTest()">Run WebSocket</a>
+    <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo" style="padding-left:5px;">MatchTrak™</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/steam">Sign in <img src="/img/steam.png" height="20px" style="position:relative;line-height:0;top:0">™</a></li>
+        <li><a href="#">Github</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </div>
+  </nav>
+  <br>
+  <br>
+  <div class="container">
+     <div>
+      <div id="scoreContainer" class="center-align">
+        <div id="ct-score-header" class="score-header">CT</div>
+        <div id="t-score-header" class="score-header">T</div>
+        <div id="score"></div>
+        <div id="roundnum"></div>
       </div>
-      <div id="players">
-        <table id="table">
-            <tr id="values">
-                <td>Name</td>
-                <td>Health</td>
-                <td>Armor</td>
-                <td>Flashed</td>
-                <td>Smoked</td>
-                <td>Match Kills</td>
-                <td>Match Assists</td>
-                <td>Match Deaths</td>
-                <td>Round Kills</td>
-            </tr>
-        </table>
-        <p>Health: </p><p id="health">%</p>
+      <div class="row">
+        <div class="col s12 m6 l4">
+          <div class="card timer-card">
+            <div class="card-content">
+              <span class="card-title">Bomb Timer</span>
+              <p id="no-bomb">The bomb hasn't been planted yet.</p>
+              <div id="bomb" class="timer-bg center-align">
+                <div class="timer" id="btime"></div>
+                <div id="defuse"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+     </div>
+    </div>  
    </body>
 </html>
