@@ -1,11 +1,14 @@
 #!/usr/bin/ruby
 
-require 'sinatra/base'
-require 'sinatra-websocket'
-require 'json'
-require 'thin'
-require 'tilt/erubis'
-require 'omniauth'
+require "rubygems"
+require "bundler"
+
+Bundler.require
+
+require "tilt/erb"
+require "openid/store/filesystem"
+require "omniauth/strategies/steam"
+require "json"
 
 class MatchTrak < Sinatra::Base
         set :sessions, true
@@ -13,6 +16,14 @@ class MatchTrak < Sinatra::Base
         set :sockets, []
         set :port, 3000
         set :bind, '0.0.0.0'
+        api_key = "C2D4A84F12A4E7EC5FC7B6690A4530EB"
+        register Sinatra::Flash
+        use Rack::Session::Cookie
+        @redis = Redis.new
+
+        use OmniAuth::Builder do
+          provider :steam, api_key, :storage => OpenID::Store::Filesystem.new("/tmp")
+        end
 
         post '/' do
             payload = JSON.parse(request.body.read.to_s)
@@ -37,6 +48,20 @@ class MatchTrak < Sinatra::Base
                   end
                 end
             end
+        end
+
+        post '/auth/steam/callback' do
+          content_type "text/plain"
+          request.env["omniauth.auth"].to_hash.inspect
+        end
+
+        get '/authdata' do
+            content_type "text/plain"
+            request.env["omniauth.auth"].to_hash.inspect
+        end
+
+        get '/auth/failure' do
+
         end
 
         get '/js' do
