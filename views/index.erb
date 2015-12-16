@@ -2,6 +2,7 @@
 <html>
    <head>
       <title>MatchTrak</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
@@ -84,6 +85,35 @@
             <div class="card-content">
               <span class="card-title">Economy</span>
               <div id="money">Not available.</div>
+              </div>
+            </div>
+          </div>
+          <div class="col s12 m6 l4">
+          <div class="card health-card">
+            <div class="card-content">
+              <span class="card-title">Health/Armor</span>
+              <div id="health">
+                <div id="health-val"></div>
+                <div class="progress">
+                  <div class="determinate" id="health-bar" style="width: 0%"></div>
+                </div>
+              </div>
+              <div id="armor">
+                <div id="armor-val"></div>
+                <div class="progress">
+                  <div class="determinate" id="armor-bar" style="width: 0%"></div>
+                </div>
+              </div>
+                <input type="checkbox" id="helmet" checked="checked" disabled="disabled" />
+                <label for="helmet">Helmet</label>
+              </div>
+            </div>
+          </div>
+          <div class="col s12 m6 l4">
+          <div class="card health-card">
+            <div class="card-content">
+              <span class="card-title">Weapons</span>
+                <div id="weapons"></div>
               </div>
             </div>
           </div>

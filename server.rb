@@ -49,3 +49,7 @@ get '/' do
         end
     end
 end
+
+get '/js' do
+    send_file 'script.js', :type => :js
+end

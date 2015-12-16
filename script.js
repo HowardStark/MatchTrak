@@ -27,6 +27,7 @@ var handleData = function(d){
    window.latestData = d;
    updateScore(d);
    updateMoney(d);
+   updateHealth(d);
 };
 
 var updateScore = function(d){
@@ -77,23 +78,39 @@ var stopBombTimer = function(){
    $('#no-bomb').show();
 }
 
-var updateHealth = function(){
-
+var updateHealth = function(d){
+   var s = d.player.state;
+   var armor = s.armor;
+   var health = s.health;
+   var helmet = s.helmet;
+   $('#health-bar').css({
+      width: health+"%"
+   });
+   $('#armor-bar').css({
+      width: armor+"%"
+   });
+   $('#health-val').text("Health: " + health);
+   $('#armor-val').text("Armor: " + armor);
+   $('#helmet').prop("checked", helmet);
 };
 
 var updateMoney = function(d){
-   var playerMoney = d.player.state.money
-   $('#money').text("$"+playerMoney)
+   var playerMoney = d.player.state.money;
+   $('#money').text("$"+playerMoney);
 };
 
 var updateKills = function(){
 
 };
 
+var updateWeapons = function(){
+   $('#weapons')
+}
+
 var handleWin = function(win_team){
    if (!winHandled){
       var text = (win_team === "T" ? "Terrorists" : "Counter Terrorists");
-      alert(text + " win the round!");
+      Materialize.toast(text + " win the round!");
       winHandled = true;
    }
 }
