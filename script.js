@@ -28,6 +28,7 @@ var handleData = function(d){
    updateScore(d);
    updateMoney(d);
    updateHealth(d);
+   updateWeapons(d);
 };
 
 var updateScore = function(d){
@@ -103,8 +104,15 @@ var updateKills = function(){
 
 };
 
-var updateWeapons = function(){
-   $('#weapons')
+var updateWeapons = function(d){
+   var w = d.player.weapons
+    $('#weapons').html("");
+   Object.keys(w).forEach(function(e){
+      var q = $("<div>", {id: e, class: (w[e].state === "active" ? "equipped" : "")});
+      q.text(w[e].type + ": " + w[e].name);
+      $('#weapons').append(q);
+   });
+   
 }
 
 var handleWin = function(win_team){
