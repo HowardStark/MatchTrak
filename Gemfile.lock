@@ -24,6 +24,7 @@ GEM
       ruby-openid (>= 2.1.8)
     rack-protection (1.5.3)
       rack
+    redis (3.2.2)
     ruby-openid (2.7.0)
     sinatra (1.4.6)
       rack (~> 1.4)
@@ -47,6 +48,7 @@ PLATFORMS
 DEPENDENCIES
   omniauth-openid
   omniauth-steam
+  redis
   sinatra
   sinatra-flash
   sinatra-websocket
