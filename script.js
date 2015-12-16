@@ -8,10 +8,16 @@ var Player = function(id) {
 var players = []
 var timerRunning = false;
 var winHandled = false;
+var connected = false;
 
 var initWS = function(wsIP){
    var ws = new WebSocket("ws://"+wsIP);
    ws.onmessage = function(e){
+      if (!connected) {
+         connected = true;
+         $('.db').show();
+         $('#loading').hide();
+      }
       handleData(JSON.parse(e.data));
    }
 };
@@ -20,6 +26,7 @@ var handleData = function(d){
    console.log(d);
    window.latestData = d;
    updateScore(d);
+   updateMoney(d);
 };
 
 var updateScore = function(d){
@@ -74,8 +81,9 @@ var updateHealth = function(){
 
 };
 
-var updateMoney = function(){
-
+var updateMoney = function(d){
+   var playerMoney = d.player.state.money
+   $('#money').text("$"+playerMoney)
 };
 
 var updateKills = function(){
@@ -95,4 +103,4 @@ var ping = function(dq){
    return Date.now() - d.provider.timestamp
 }
 
-initWS("localhost:3000");
+initWS(window.location.host);

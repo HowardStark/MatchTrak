@@ -30,6 +30,12 @@
       #bomb {
         display: none;
       }
+      #loading {
+        font-size: 30px;
+      }
+      .db {
+        display: none;
+      }
   </style>
    </head>
    <body>
@@ -47,13 +53,20 @@
   <br>
   <div class="container">
      <div>
-      <div id="scoreContainer" class="center-align">
+      <div id="scoreContainer" class="center-align db">
         <div id="ct-score-header" class="score-header">CT</div>
         <div id="t-score-header" class="score-header">T</div>
         <div id="score"></div>
         <div id="roundnum"></div>
       </div>
-      <div class="row">
+    </div>
+    <div id="loading" class="center-align">
+      Connecting...
+        <div class="progress">
+      <div class="indeterminate"></div>
+  </div>
+  </div>
+      <div class="row db" id="dashboard">
         <div class="col s12 m6 l4">
           <div class="card timer-card">
             <div class="card-content">
@@ -62,6 +75,15 @@
               <div id="bomb" class="timer-bg center-align">
                 <div class="timer" id="btime"></div>
                 <div id="defuse"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col s12 m6 l4">
+          <div class="card eco-card">
+            <div class="card-content">
+              <span class="card-title">Economy</span>
+              <div id="money">Not available.</div>
               </div>
             </div>
           </div>
