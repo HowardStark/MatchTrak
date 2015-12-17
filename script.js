@@ -1,11 +1,11 @@
 var Player = function(id) {
    var p = {
 
-   }
-   return p
-}
+   };
+   return p;
+};
 
-var players = []
+var players = [];
 var timerRunning = false;
 var winHandled = false;
 var connected = false;
@@ -19,7 +19,7 @@ var initWS = function(wsIP){
          $('#loading').hide();
       }
       handleData(JSON.parse(e.data));
-   }
+  };
 };
 
 var handleData = function(d){
@@ -32,11 +32,11 @@ var handleData = function(d){
 };
 
 var updateScore = function(d){
-   var map = d.map.name
-   var roundNum = d.map.round
-   var tScore = d.map.team_t.score
-   var ctScore = d.map.team_ct.score
-   var roundPhase = d.round.phase
+   var map = d.map.name;
+   var roundNum = d.map.round;
+   var tScore = d.map.team_t.score;
+   var ctScore = d.map.team_ct.score;
+   var roundPhase = d.round.phase;
    if (d.round.bomb === "planted") {
       startBombTimer();
    }
@@ -56,7 +56,7 @@ var updateScore = function(d){
 
    $('#score').text(ctScore + " - " + tScore);
    $('#roundnum').text("ROUND " + roundNum + " OUT OF 30");
-}
+};
 
 var startBombTimer = function(){
    if (!timerRunning){
@@ -65,19 +65,19 @@ var startBombTimer = function(){
       $('#bomb').show();
       $('#no-bomb').hide();
       window.bombTimer = setInterval(function(){
-         window.bombTime -= 0.1
+         window.bombTime -= 0.1;
          $('#btime').text(Math.round(window.bombTime*10)/10);
-         $('#defuse').text(window.bombTime > 5 ? "You can defuse." : "No time! Run!")
+         $('#defuse').text(window.bombTime > 5 ? "You can defuse." : "No time! Run!");
       }, 100);
    }
-}
+};
 
 var stopBombTimer = function(){
    clearInterval(window.bombTimer);
    timerRunning = false;
    $('#bomb').hide();
    $('#no-bomb').show();
-}
+};
 
 var updateHealth = function(d){
    var s = d.player.state;
@@ -105,15 +105,15 @@ var updateKills = function(){
 };
 
 var updateWeapons = function(d){
-   var w = d.player.weapons
+   var w = d.player.weapons;
     $('#weapons').html("");
    Object.keys(w).forEach(function(e){
       var q = $("<div>", {id: e, class: (w[e].state === "active" ? "equipped" : "")});
       q.text(w[e].type + ": " + w[e].name);
       $('#weapons').append(q);
    });
-   
-}
+
+};
 
 var handleWin = function(win_team){
    if (!winHandled){
@@ -121,11 +121,11 @@ var handleWin = function(win_team){
       Materialize.toast(text + " win the round!");
       winHandled = true;
    }
-}
+};
 
 var ping = function(dq){
    var d = dq || window.latestData;
-   return Date.now() - d.provider.timestamp
-}
+   return Date.now() - d.provider.timestamp;
+};
 
 initWS(window.location.host);

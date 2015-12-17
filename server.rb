@@ -25,15 +25,28 @@ class MatchTrak < Sinatra::Base
           provider :steam, api_key, :storage => OpenID::Store::Filesystem.new("/tmp")
         end
 
-        post '/' do
+        def require_logged_in
+            redirect('/auth/steam') unless is_authenticated?
+        end
+
+        def is_authenticated?
+            return true
+          #return !!session[:user_id]
+        end
+
+        post('/') do
             payload = JSON.parse(request.body.read.to_s)
             EM.next_tick { settings.sockets.each{ |s| s.send(JSON.pretty_generate(payload)) } }
             status 200
         end
 
-        get '/' do
+        get('/') do
             if (!request.websocket?)
-                erb :index
+                if(is_authenticated?)
+                    erb :dashboard
+                else
+                    erb :index
+                end
             else
                 request.websocket do |ws|
                   ws.onopen do
@@ -50,21 +63,21 @@ class MatchTrak < Sinatra::Base
             end
         end
 
-        post '/auth/steam/callback' do
+        post('/auth/steam/callback') do
           content_type "text/plain"
           request.env["omniauth.auth"].to_hash.inspect
         end
 
-        get '/authdata' do
+        get('/authdata') do
             content_type "text/plain"
-            request.env["omniauth.auth"].to_hash.inspect
+            session.inspect
         end
 
-        get '/auth/failure' do
+        get('/auth/failure') do
 
         end
 
-        get '/js' do
+        get('/js') do
             send_file 'script.js', :type => :js
         end
 
