@@ -6,12 +6,77 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+      <script>
+      $(document).ready(function(){
+        $('.parallax').parallax();
+        console.log('s')
+      });
+      $(document).ready(function(){
+      $('.slider').slider({full_width: true});
+    });
+        
+      </script>
+      <style>
+      </style>
    </head>
    <body>
-  <div class="container">
-    <h1 class="center-align">MatchTrak™</h1>
-    <h5 class="center-align">MatchTrak is a CS:GO tool for in-game leaders or out-of-game captains to manage their team better. It gives them visibility into their team's loadout, health, ammo, and other stats, allowing them to make better informed calls.</h5>
-    <a class="waves-effect waves-light btn center-align">Try today</a>
-     </div>
+    <div class="navbar-fixed">
+    <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo" style="padding-left:5px;">MatchTrak™</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/auth/steam">Sign in <img src="/img/steam.png" height="20px" style="position:relative;line-height:0;top:0">™</a></li>
+        <li><a href="#">Github</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+  <div class="parallax-container">
+    <div class="parallax"><img src="https://i.ytimg.com/vi/HGbbqGRxznQ/maxresdefault.jpg"></div>
+  </div>
+  <div class="section white">
+    <div class="row container">
+      <h2 class="header">MatchTrak™</h2>
+      <p class="grey-text text-darken-3 lighten-3">MatchTrak is a CS:GO tool for in-game leaders or out-of-game captains to manage their team better. It gives them visibility into their team's loadout, health, ammo, and other stats, allowing them to make better informed calls.</p>
+      <br>
+       <div class="slider">
+    <ul class="slides">
+      <li>
+        <img src="http://lorempixel.com/580/250/nature/1"> <!-- random image -->
+        <div class="caption center-align">
+          <h3>Screenshot1</h3>
+          <h5 class="light grey-text text-lighten-3">sdf</h5>
+        </div>
+      </li>
+      <li>
+        <img src="http://lorempixel.com/580/250/nature/2"> <!-- random image -->
+        <div class="caption left-align">
+          <h3>Left Aligned Caption</h3>
+          <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+        </div>
+      </li>
+      <li>
+        <img src="http://lorempixel.com/580/250/nature/3"> <!-- random image -->
+        <div class="caption right-align">
+          <h3>Right Aligned Caption</h3>
+          <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+        </div>
+      </li>
+      <li>
+        <img src="http://lorempixel.com/580/250/nature/4"> <!-- random image -->
+        <div class="caption center-align">
+          <h3>This is our big Tagline!</h3>
+          <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+        </div>
+      </li>
+    </ul>
+  </div>
+      
+    </div>
+  </div>
+  </div>
+    </div>
+  </div>
    </body>
 </html>
