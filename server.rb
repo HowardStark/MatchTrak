@@ -11,14 +11,15 @@ require "omniauth/strategies/steam"
 require "json"
 
 class MatchTrak < Sinatra::Base
-        set :sessions, true
         set :server, 'thin'
         set :sockets, []
         set :port, 3000
         set :bind, '0.0.0.0'
         api_key = "C2D4A84F12A4E7EC5FC7B6690A4530EB"
         register Sinatra::Flash
-        use Rack::Session::Cookie
+        use Rack::Session::Cookie, :key => 'rack.session',
+                                    :path => '/',
+                                    :secret => 'MatchTrak'
         @redis = Redis.new
 
         use OmniAuth::Builder do
@@ -30,14 +31,19 @@ class MatchTrak < Sinatra::Base
         end
 
         def is_authenticated?
-            return true
-          #return !!session[:user_id]
+        # return false
+          return !!session[:uid]
         end
 
         post('/') do
             payload = JSON.parse(request.body.read.to_s)
             EM.next_tick { settings.sockets.each{ |s| s.send(JSON.pretty_generate(payload)) } }
             status 200
+        end
+
+        get('/debug') do
+            require_logged_in
+            session.inspect
         end
 
         get('/') do
@@ -65,7 +71,9 @@ class MatchTrak < Sinatra::Base
 
         post('/auth/steam/callback') do
           content_type "text/plain"
-          request.env["omniauth.auth"].to_hash.inspect
+          session[:uid] = request.env["omniauth.auth"].to_hash["uid"]
+          session[:info] = request.env["omniauth.auth"].to_hash["info"]
+          redirect('/')
         end
 
         get('/authdata') do
