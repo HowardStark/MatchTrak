@@ -118,7 +118,7 @@ var updateWeapons = function(d){
 var handleWin = function(win_team){
    if (!winHandled){
       var text = (win_team === "T" ? "Terrorists" : "Counter Terrorists");
-      Materialize.toast(text + " win the round!");
+      Materialize.toast(text + " win the round!", 4000);
       winHandled = true;
    }
 };
