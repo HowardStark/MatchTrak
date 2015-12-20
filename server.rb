@@ -11,16 +11,21 @@ require "omniauth/strategies/steam"
 require "json"
 
 class MatchTrak < Sinatra::Base
+
+        use Rack::Session::Pool, :key => 'rack.session',
+                                    :path => "/",
+                                    :secret => 'MatchTrak'
+
+        set :protection, except: :session_hijacking
         set :server, 'thin'
         set :sockets, []
         set :port, 3000
         set :bind, '0.0.0.0'
         api_key = "C2D4A84F12A4E7EC5FC7B6690A4530EB"
         register Sinatra::Flash
-        use Rack::Session::Cookie, :key => 'rack.session',
-                                    :path => '/',
-                                    :secret => 'MatchTrak'
-        @redis = Redis.new
+
+        $redis = Redis.new
+
 
         use OmniAuth::Builder do
           provider :steam, api_key, :storage => OpenID::Store::Filesystem.new("/tmp")
@@ -35,20 +40,32 @@ class MatchTrak < Sinatra::Base
           return !!session[:uid]
         end
 
+        get('/debug') do
+            require_logged_in
+            session[:uid]
+        end
+
         post('/') do
+            session.delete("init")
             payload = JSON.parse(request.body.read.to_s)
-            EM.next_tick { settings.sockets.each{ |s| s.send(JSON.pretty_generate(payload)) } }
+            puts "PAYLOAD: " + payload["player"]["steamid"]
+            puts session.inspect
+            EM.next_tick { settings.sockets.each{ |s| s.send(JSON.pretty_generate(payload)) } } unless payload["player"]["steamid"].to_s != session[:uid].to_s
+            # unless payload["player"]["steamid"] != session[:uid]
             status 200
         end
 
-        get('/debug') do
+        get('/logout') do
             require_logged_in
-            session.inspect
+            session.clear
+            redirect('/')
         end
 
         get('/') do
+            session.delete("init")
             if (!request.websocket?)
                 if(is_authenticated?)
+                    puts session.inspect
                     erb :dashboard
                 else
                     erb :index
@@ -73,10 +90,12 @@ class MatchTrak < Sinatra::Base
           content_type "text/plain"
           session[:uid] = request.env["omniauth.auth"].to_hash["uid"]
           session[:info] = request.env["omniauth.auth"].to_hash["info"]
+          $redis.setnx(session[:uid], session[:info])
           redirect('/')
         end
 
         get('/authdata') do
+            session.delete("init")
             content_type "text/plain"
             session.inspect
         end
