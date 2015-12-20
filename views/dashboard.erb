@@ -56,6 +56,10 @@
       .w {
         color: gray;
       }
+      .profile-pic {
+        border-radius: 50%;
+        height: 50px;
+      }
   </style>
    </head>
    <body>
@@ -86,6 +90,13 @@
       <div class="indeterminate"></div>
   </div>
   </div>
+  <div class="row">
+  <div class="col s12">
+  <ul class="tabs db">
+    <li class="tab col s6"><a href="#dashboard">Dashboard</a></li>
+    <li class="tab col s6"><a href="#team">Team</a></li>
+  </ul>
+</div>
       <div class="row db" id="dashboard">
         <div class="col s12 m6 l4">
           <div class="card timer-card">
@@ -137,8 +148,22 @@
             </div>
           </div>
         </div>
+        <div class="row db" id="team">
+          <div class="col s12 m6 l4">
+            <div class="card">
+            <div class="card-content center-align">
+              <img class="profile-pic center-align" src="https://pbs.twimg.com/profile_images/572422362710216706/dQQX4YV9.jpeg"><br>
+              <span class="card-title">Poculum</span>
+              <div class="left-align">
+                add armor/weapon stuff here
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
      </div>
     </div>
+  </div>
    </body>
 </html>
