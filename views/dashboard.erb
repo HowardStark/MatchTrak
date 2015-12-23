@@ -1,171 +1,170 @@
 <!DOCTYPE HTML>
 <html>
-   <head>
-      <title>MatchTrak</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
-      <script src="/js"></script>
-      <style>
-      .score-header {
+<head>
+    <title>MatchTrak</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+    <script src="/js/script.js"></script>
+    <style>
+    .score-header {
         font-size: 15px;
         display: inline;
         padding:20px;
-      }
+    }
 
-      .progress {
-          background-color:#FFCDD2;
-      }
+    .progress {
+        background-color:#FFCDD2;
+    }
 
-      .progress .determinate {
-          background-color:#E57373;
-      }
+    .progress .determinate {
+        background-color:#E57373;
+    }
 
-      .progress .indeterminate {
-          background-color:#E57373;
-      }
+    .progress .indeterminate {
+        background-color:#E57373;
+    }
 
-      #score {
+    #score {
         font-size: 50px;
-      }
-      .timer {
+    }
+    .timer {
         font-size: 100px;
         background: rgba(255, 255, 255, 0.7);
-      }
-      .timer-bg {
+    }
+    .timer-bg {
         background-image: url('/img/bomb.png');
         background-position: center;
         background-repeat: no-repeat;
-      }
-      #defuse {
+    }
+    #defuse {
         background: rgba(255, 255, 255, 0.7);
-      }
-      #bomb {
+    }
+    #bomb {
         display: none;
-      }
-      #loading {
+    }
+    #loading {
         font-size: 30px;
-      }
-      .db {
+    }
+    .db {
         display: none;
-      }
-      .equipped {
+    }
+    .equipped {
         color: black;
-      }
-      .w {
+    }
+    .w {
         color: gray;
-      }
-      .profile-pic {
+    }
+    .profile-pic {
         border-radius: 50%;
         height: 50px;
-      }
-  </style>
-   </head>
-   <body>
+    }
+    </style>
+</head>
+<body>
     <nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo" style="padding-left:5px;">MatchTrak™</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="/steam">Sign in <img src="/img/steam.png" height="20px" style="position:relative;line-height:0;top:0">™</a></li>
-        <li><a href="#"><%= session[:uid] %></a></li>
-        <li><a href="/logout">Log out</a></li>
-        <li><a href="#">Github</a></li>
-        <li><a href="#">About</a></li>
-      </ul>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo" style="padding-left:5px;">MatchTrak™</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="#"><%= session[:uid] %></a></li>
+                <li><a href="#">Github</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="/logout">Log out</a></li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <br>
+    <div class="container">
+        <div id="loading" class="center-align">
+            Connecting...
+            <div class="progress">
+                <div class="indeterminate"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <ul class="tabs db">
+                    <li class="tab col s6"><a href="#dashboard">Dashboard</a></li>
+                    <li class="tab col s6"><a href="#team">Team</a></li>
+                </ul>
+            </div>
+            <div class="row db" id="dashboard">
+                <div>
+                    <div id="scoreContainer" class="center-align db">
+                        <div id="ct-score-header" class="score-header">CT</div>
+                        <div id="t-score-header" class="score-header">T</div>
+                        <div id="score"></div>
+                        <div id="roundnum"></div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4">
+                    <div class="card timer-card">
+                        <div class="card-content">
+                            <span class="card-title">Bomb Timer</span>
+                            <p id="no-bomb">The bomb hasn't been planted yet.</p>
+                            <div id="bomb" class="timer-bg center-align">
+                                <div class="timer" id="btime"></div>
+                                <div id="defuse"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4">
+                    <div class="card eco-card">
+                        <div class="card-content">
+                            <span class="card-title">Economy</span>
+                            <div id="money">Not available.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4">
+                    <div class="card health-card">
+                        <div class="card-content">
+                            <span class="card-title">Health/Armor</span>
+                            <div id="health">
+                                <div id="health-val"></div>
+                                <div class="progress">
+                                    <div class="determinate" id="health-bar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div id="armor">
+                                <div id="armor-val"></div>
+                                <div class="progress">
+                                    <div class="determinate" id="armor-bar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <input type="checkbox" id="helmet" checked="checked" disabled="disabled" />
+                            <label for="helmet">Helmet</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4">
+                    <div class="card health-card">
+                        <div class="card-content">
+                            <span class="card-title">Weapons</span>
+                            <div id="weapons" class="w"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row db" id="team">
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-content center-align">
+                            <img class="profile-pic center-align" src="https://pbs.twimg.com/profile_images/572422362710216706/dQQX4YV9.jpeg"><br>
+                            <span class="card-title">Poculum</span>
+                            <div class="left-align">
+                                add armor/weapon stuff here
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </nav>
-  <br>
-  <br>
-  <div class="container">
-     <div>
-      <div id="scoreContainer" class="center-align db">
-        <div id="ct-score-header" class="score-header">CT</div>
-        <div id="t-score-header" class="score-header">T</div>
-        <div id="score"></div>
-        <div id="roundnum"></div>
-      </div>
-    </div>
-    <div id="loading" class="center-align">
-      Connecting...
-        <div class="progress">
-      <div class="indeterminate"></div>
-  </div>
-  </div>
-  <div class="row">
-  <div class="col s12">
-  <ul class="tabs db">
-    <li class="tab col s6"><a href="#dashboard">Dashboard</a></li>
-    <li class="tab col s6"><a href="#team">Team</a></li>
-  </ul>
 </div>
-      <div class="row db" id="dashboard">
-        <div class="col s12 m6 l4">
-          <div class="card timer-card">
-            <div class="card-content">
-              <span class="card-title">Bomb Timer</span>
-              <p id="no-bomb">The bomb hasn't been planted yet.</p>
-              <div id="bomb" class="timer-bg center-align">
-                <div class="timer" id="btime"></div>
-                <div id="defuse"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col s12 m6 l4">
-          <div class="card eco-card">
-            <div class="card-content">
-              <span class="card-title">Economy</span>
-              <div id="money">Not available.</div>
-              </div>
-            </div>
-          </div>
-          <div class="col s12 m6 l4">
-          <div class="card health-card">
-            <div class="card-content">
-              <span class="card-title">Health/Armor</span>
-              <div id="health">
-                <div id="health-val"></div>
-                <div class="progress">
-                  <div class="determinate" id="health-bar" style="width: 0%"></div>
-                </div>
-              </div>
-              <div id="armor">
-                <div id="armor-val"></div>
-                <div class="progress">
-                  <div class="determinate" id="armor-bar" style="width: 0%"></div>
-                </div>
-              </div>
-                <input type="checkbox" id="helmet" checked="checked" disabled="disabled" />
-                <label for="helmet">Helmet</label>
-              </div>
-            </div>
-          </div>
-          <div class="col s12 m6 l4">
-          <div class="card health-card">
-            <div class="card-content">
-              <span class="card-title">Weapons</span>
-              <div id="weapons" class="w"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row db" id="team">
-          <div class="col s12 m6 l4">
-            <div class="card">
-            <div class="card-content center-align">
-              <img class="profile-pic center-align" src="https://pbs.twimg.com/profile_images/572422362710216706/dQQX4YV9.jpeg"><br>
-              <span class="card-title">Poculum</span>
-              <div class="left-align">
-                add armor/weapon stuff here
-              </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-     </div>
-    </div>
-  </div>
-   </body>
+</div>
+</body>
 </html>
