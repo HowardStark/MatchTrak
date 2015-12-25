@@ -149,6 +149,11 @@ class MatchTrak < Sinatra::Base
         send_file 'script.js', :type => :js
     end
 
+    not_found do
+        status 404
+        erb :error
+    end
+
     # THIS ALLOWS THE SERVER TO BE STARTED DIRECTLY THROUGH RUNNING. DO NOT REMOVE #
     run! if app_file == $0
 end
