@@ -1,28 +1,20 @@
 #!/usr/bin/ruby
+
+require "rubygems"
 require "bundler"
+
 Bundler.require
 
 require "tilt/erb"
-
 require "openid/store/filesystem"
 require "omniauth/strategies/steam"
-
-class User < ActiveRecord::Base
-    serialize :settings
-end
-
-class Team < ActiveRecord::Base
-    serialize :settings
-end
+require "json"
 
 class MatchTrak < Sinatra::Base
 
-    register Sinatra::Flash
-    register Sinatra::ActiveRecordExtension
-
     use Rack::Session::Cookie, :key => 'rack.session',
-                               :path => "/",
-                               :secret => 'MatchTrak'
+    :path => "/",
+    :secret => 'MatchTrak'
 
     set :protection, except: :session_hijacking
     set :server, 'thin'
@@ -30,15 +22,9 @@ class MatchTrak < Sinatra::Base
     set :port, 3000
     set :bind, '0.0.0.0'
     api_key = "C2D4A84F12A4E7EC5FC7B6690A4530EB"
+    register Sinatra::Flash
 
-    ActiveRecord::Base.establish_connection(
-        :adapter  => "mysql2",
-        :host     => "localhost",
-        :username => "root",
-        :password => "root",
-        :database => "matchtrak"
-    );
-
+    $redis = Redis.new
 
 
     use OmniAuth::Builder do
@@ -114,25 +100,11 @@ class MatchTrak < Sinatra::Base
         end
     end
 
-    get('/user/:uid') do
-
-    end
-
-    get('/team/:tid') do
-
-    end
-
     post('/auth/steam/callback') do
         content_type "text/plain"
         session[:uid] = request.env["omniauth.auth"].to_hash["uid"]
         session[:info] = request.env["omniauth.auth"].to_hash["info"]
-        User.find_or_create_by(uid: session[:uid]) do |user|
-            user.profileimage = session[:info]["image"]
-            user.settings = {
-                :private => false,
-                :delay => 0
-            }
-        end
+        $redis.setnx(session[:uid], session[:info])
         redirect('/')
     end
 
@@ -149,6 +121,11 @@ class MatchTrak < Sinatra::Base
         send_file 'script.js', :type => :js
     end
 
+    not_found do
+        status 404
+        erb :error
+    end
+    
     # THIS ALLOWS THE SERVER TO BE STARTED DIRECTLY THROUGH RUNNING. DO NOT REMOVE #
     run! if app_file == $0
 end
