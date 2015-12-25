@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
     <title>MatchTrak</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,63 +12,77 @@
     .score-header {
         font-size: 15px;
         display: inline;
-        padding:20px;
+        padding: 20px;
     }
-
+    
     .progress {
-        background-color:#FFCDD2;
+        background-color: #FFCDD2;
     }
-
+    
     .progress .determinate {
-        background-color:#E57373;
+        background-color: #E57373;
     }
-
+    
     .progress .indeterminate {
-        background-color:#E57373;
+        background-color: #E57373;
     }
-
+    
     #score {
         font-size: 50px;
     }
+    
     .timer {
         font-size: 100px;
         background: rgba(255, 255, 255, 0.7);
     }
+    
     .timer-bg {
         background-image: url('/img/bomb.png');
         background-position: center;
         background-repeat: no-repeat;
     }
+    
     #defuse {
         background: rgba(255, 255, 255, 0.7);
     }
+    
     #bomb {
         display: none;
     }
+    
     #loading {
         font-size: 30px;
     }
+    
     .db {
         display: none;
     }
+    
     .equipped {
         color: black;
     }
+    
     .w {
         color: gray;
     }
+    
     .profile-pic {
         border-radius: 50%;
         height: 50px;
     }
     </style>
 </head>
+
 <body>
     <nav>
         <div class="nav-wrapper">
             <a href="#" class="brand-logo" style="padding-left:5px;">MatchTrak™</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="#"><%= session[:uid] %></a></li>
+                <li>
+                    <a href="#">
+                        <%= session[:uid] %>
+                    </a>
+                </li>
                 <li><a href="#">Github</a></li>
                 <li><a href="#">About</a></li>
                 <li><a href="/logout">Log out</a></li>
@@ -153,7 +168,8 @@
                 <div class="col s12 m6 l4">
                     <div class="card">
                         <div class="card-content center-align">
-                            <img class="profile-pic center-align" src="https://pbs.twimg.com/profile_images/572422362710216706/dQQX4YV9.jpeg"><br>
+                            <img class="profile-pic center-align" src="https://pbs.twimg.com/profile_images/572422362710216706/dQQX4YV9.jpeg">
+                            <br>
                             <span class="card-title">Poculum</span>
                             <div class="left-align">
                                 add armor/weapon stuff here
@@ -164,7 +180,8 @@
             </div>
         </div>
     </div>
-</div>
-</div>
+    </div>
+    </div>
 </body>
+
 </html>
