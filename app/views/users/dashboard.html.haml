@@ -1,0 +1,147 @@
+!!!
+%html
+  %head
+    %title MatchTrak
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"}
+    %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css", :rel => "stylesheet"}/
+    %script{:src => "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"}
+    %script{:src => "/js/script.js"}
+    :css
+      .score-header {
+          font-size: 15px;
+          display: inline;
+          padding: 20px;
+      }
+      
+      .progress {
+          background-color: #FFCDD2;
+      }
+      
+      .progress .determinate {
+          background-color: #E57373;
+      }
+      
+      .progress .indeterminate {
+          background-color: #E57373;
+      }
+      
+      #score {
+          font-size: 50px;
+      }
+      
+      .timer {
+          font-size: 100px;
+          background: rgba(255, 255, 255, 0.7);
+      }
+      
+      .timer-bg {
+          background-image: url('/img/bomb.png');
+          background-position: center;
+          background-repeat: no-repeat;
+      }
+      
+      #defuse {
+          background: rgba(255, 255, 255, 0.7);
+      }
+      
+      #bomb {
+          display: none;
+      }
+      
+      #loading {
+          font-size: 30px;
+      }
+      
+      .db {
+          display: none;
+      }
+      
+      .equipped {
+          color: black;
+      }
+      
+      .w {
+          color: gray;
+      }
+      
+      .profile-pic {
+          border-radius: 50%;
+          height: 50px;
+      }
+  %body
+    %nav
+      .nav-wrapper
+        %a.brand-logo{:href => "#", :style => "padding-left:5px;"} MatchTrak™
+        %ul#nav-mobile.right.hide-on-med-and-down
+          %li
+            %a{:href => "#"}
+              = session[:uid]
+          %li
+            %a{:href => "#"} Github
+          %li
+            %a{:href => "#"} About
+          %li
+            %a{:href => "/logout"} Log out
+    %br/
+    %br/
+    .container
+      #loading.center-align
+        Connecting...
+        .progress
+          .indeterminate
+      .row
+        .col.s12
+          %ul.tabs.db
+            %li.tab.col.s6
+              %a{:href => "#dashboard"} Dashboard
+            %li.tab.col.s6
+              %a{:href => "#team"} Team
+        #dashboard.row.db
+          %div
+            #scoreContainer.center-align.db
+              #ct-score-header.score-header CT
+              #t-score-header.score-header T
+              #score
+              #roundnum
+          .col.s12.m6.l4
+            .card.timer-card
+              .card-content
+                %span.card-title Bomb Timer
+                %p#no-bomb The bomb hasn't been planted yet.
+                #bomb.timer-bg.center-align
+                  #btime.timer
+                  #defuse
+          .col.s12.m6.l4
+            .card.eco-card
+              .card-content
+                %span.card-title Economy
+                #money Not available.
+          .col.s12.m6.l4
+            .card.health-card
+              .card-content
+                %span.card-title Health/Armor
+                #health
+                  #health-val
+                  .progress
+                    #health-bar.determinate{:style => "width: 0%"}
+                #armor
+                  #armor-val
+                  .progress
+                    #armor-bar.determinate{:style => "width: 0%"}
+                %input#helmet{:checked => "checked", :disabled => "disabled", :type => "checkbox"}/
+                %label{:for => "helmet"} Helmet
+          .col.s12.m6.l4
+            .card.health-card
+              .card-content
+                %span.card-title Weapons
+                #weapons.w
+        #team.row.db
+          .col.s12.m6.l4
+            .card
+              .card-content.center-align
+                %img.profile-pic.center-align{:src => "https://pbs.twimg.com/profile_images/572422362710216706/dQQX4YV9.jpeg"}/
+                %br/
+                %span.card-title Poculum
+                .left-align
+                  add armor/weapon stuff here
