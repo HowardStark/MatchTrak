@@ -26,7 +26,7 @@ module MatchTrak
 
     # steam omniauth
     Rails.application.config.middleware.use OmniAuth::Builder do
-      provider :steam, ENV['STEAM_WEB_API_KEY']
+      provider :steam, Rails.application.secrets.steam_web_api_key
     end
   end
 end
