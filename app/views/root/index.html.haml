@@ -1,0 +1,81 @@
+!!!
+%html
+  %head
+    %title MatchTrak
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"}
+    %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css", :rel => "stylesheet"}/
+    %script{:src => "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"}
+    :javascript
+      $(document).ready(function() {
+          $('.parallax').parallax();
+      });
+      $(document).ready(function() {
+          $('.slider').slider({
+              full_width: true
+          });
+          $(".button-collapse").sideNav();
+      });
+    :css
+
+  %body
+    .navbar-fixed
+      %nav
+        .nav-wrapper
+          %a.brand-logo{:href => "#", :style => "padding-left:5px;"} MatchTrak™
+          %ul#nav-mobile.right.hide-on-med-and-down
+            %li
+              %a{:href => "/auth/steam"}
+                Sign in
+                = succeed "\u{2122}" do
+                  = image_tag 'steam.png',{ height: '20px', :style => "position:relative;line-height:0;top:0"};
+            %li
+              %a{:href => "#"} Github
+            %li
+              %a{:href => "#"} About
+          %ul#slide-out.side-nav
+            %li
+              %a{:href => "/auth/steam"}
+                Sign in
+                = succeed "\u{2122}" do
+                  = image_tag 'steam.png',{ height: '20px', :style => "position:relative;line-height:0;top:0"};
+            %li
+              %a{:href => "#"} Github
+            %li
+              %a{:href => "#"} About
+          %a.button-collapse{"data-activates" => "slide-out", :href => "#"}
+            %i.mdi-navigation-menu
+    .parallax-container
+      .parallax
+        %img{:src => "https://i.ytimg.com/vi/HGbbqGRxznQ/maxresdefault.jpg"}/
+    .section.white
+      .row.container
+        %h2.header MatchTrak™
+        %p.grey-text.text-darken-3.lighten-3 MatchTrak is a CS:GO tool for in-game leaders or out-of-game captains to manage their team better. It gives them visibility into their team's loadout, health, ammo, and other stats, allowing them to make better informed calls.
+        %br/
+        .slider
+          %ul.slides
+            %li
+              %img{:src => "http://lorempixel.com/580/250/nature/1"}/
+              / random image
+              .caption.center-align
+                %h3 Screenshot1
+                %h5.light.grey-text.text-lighten-3 sdf
+            %li
+              %img{:src => "http://lorempixel.com/580/250/nature/2"}/
+              / random image
+              .caption.left-align
+                %h3 Left Aligned Caption
+                %h5.light.grey-text.text-lighten-3 Here's our small slogan.
+            %li
+              %img{:src => "http://lorempixel.com/580/250/nature/3"}/
+              / random image
+              .caption.right-align
+                %h3 Right Aligned Caption
+                %h5.light.grey-text.text-lighten-3 Here's our small slogan.
+            %li
+              %img{:src => "http://lorempixel.com/580/250/nature/4"}/
+              / random image
+              .caption.center-align
+                %h3 This is our big Tagline!
+                %h5.light.grey-text.text-lighten-3 Here's our small slogan.

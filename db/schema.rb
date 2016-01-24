@@ -11,12 +11,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151223081054) do
-
-  create_table "users", primary_key: "uid", force: :cascade do |t|
-    t.string "profileimage", limit: 255
-    t.string "tid",          limit: 255,   default: "0"
-    t.text   "settings",     limit: 65535
-  end
+ActiveRecord::Schema.define(version: 0) do
 
 end

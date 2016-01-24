@@ -1,0 +1,2 @@
+class SteamCallbackController < ApplicationController
+end
